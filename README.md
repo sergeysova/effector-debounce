@@ -43,4 +43,19 @@ debounced(1);
 debounced(2);
 debounced(3);
 debounced(4);
+
+// someHappened now 4
+```
+
+Also you can use `Effect` and `Store` as trigger. `createDebounce` always returns `Event`:
+
+```ts
+const event = createEvent<number>();
+const debouncedEvent: Event<number> = createDebounce(event, 100);
+
+const fx = createEffect<number, void>();
+const debouncedEffect: Event<number> = createDebounce(fx, 100);
+
+const $store = createStore<number>(0);
+const debouncedStore: Event<number> = createDebounce($store, 100);
 ```
