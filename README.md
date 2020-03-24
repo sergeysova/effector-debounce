@@ -1,5 +1,7 @@
 # Effector Debounce
 
+[![npm bundle size](https://img.shields.io/bundlephobia/min/effector-debounce)](https://bundlephobia.com/result?p=effector-debounce)
+
 https://codesandbox.io/s/effector-throttle-debounce-w32tk
 
 ## Installation
