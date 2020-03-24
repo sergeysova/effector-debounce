@@ -61,3 +61,21 @@ const debouncedEffect: Event<number> = createDebounce(fx, 100);
 const $store = createStore<number>(0);
 const debouncedStore: Event<number> = createDebounce($store, 100);
 ```
+
+### Change name
+
+```ts
+const trigger = createEvent();
+const debounced = createDebounce(trigger, 100);
+
+// Now debounced var has `triggerDebounceTick` name
+```
+
+To change name:
+
+```ts
+const trigger = createEvent();
+const debounced = createDebounce(trigger, 100, { name: 'Hello' });
+
+// Now debounced var has `HelloDebounceTick` name
+```
