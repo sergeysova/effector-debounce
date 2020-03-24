@@ -1,5 +1,5 @@
 import 'regenerator-runtime/runtime';
-import { createStore, createEvent, createEffect } from 'effector';
+import { createStore, createEvent, createEffect, createDomain } from 'effector';
 import { createDebounce } from '../src';
 
 const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
@@ -93,6 +93,13 @@ describe('event', () => {
     expect(watcher).toBeCalledWith(2);
     expect(watcher).toBeCalledWith(4);
   });
+
+  test('name correctly assigned from trigger', () => {
+    const demo = createEvent();
+    const debouncedDemo = createDebounce(demo, 20);
+
+    expect(debouncedDemo.shortName).toMatchInlineSnapshot(`"demoDebounceTick"`);
+  });
 });
 
 describe('effect', () => {
@@ -184,6 +191,15 @@ describe('effect', () => {
     expect(watcher).toBeCalledWith(2);
     expect(watcher).toBeCalledWith(4);
   });
+
+  test('name correctly assigned from trigger', () => {
+    const demoFx = createEffect();
+    const debouncedDemo = createDebounce(demoFx, 20);
+
+    expect(debouncedDemo.shortName).toMatchInlineSnapshot(
+      `"demoFxDebounceTick"`,
+    );
+  });
 });
 
 describe('store', () => {
@@ -209,6 +225,15 @@ describe('store', () => {
 
     expect(watcher).toBeCalledTimes(1);
     expect(watcher).toBeCalledWith(2);
+  });
+
+  test('name correctly assigned from trigger', () => {
+    const $demo = createStore(0);
+    const debouncedDemo = createDebounce($demo, 20);
+
+    expect(debouncedDemo.shortName).toMatchInlineSnapshot(
+      `"$demoDebounceTick"`,
+    );
   });
 });
 
@@ -243,4 +268,21 @@ test('debounce do not affect another instance', async () => {
   await wait(20);
 
   expect(watcherSecond).toBeCalledWith('foo');
+});
+
+test('name correctly assigned from params', () => {
+  const demo = createEvent();
+  const debouncedDemo = createDebounce(demo, 20, { name: 'Example' });
+
+  expect(debouncedDemo.shortName).toMatchInlineSnapshot(
+    `"ExampleDebounceTick"`,
+  );
+});
+
+test('name should not be in domain', () => {
+  const domain = createDomain();
+  const event = domain.createEvent();
+  const debouncedDemo = createDebounce(event, 20);
+
+  expect(debouncedDemo.shortName).toMatchInlineSnapshot(`"eventDebounceTick"`);
 });
