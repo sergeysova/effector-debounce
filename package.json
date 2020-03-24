@@ -1,6 +1,6 @@
 {
   "name": "effector-debounce",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "./dist/common.js",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -14,7 +14,8 @@
     "build": "rm -rf dist && rollup -c",
     "lint": "eslint --ext .ts,.tsx src",
     "commit": "git-cz",
-    "test": "jest"
+    "test": "jest",
+    "prepublishOnly": "yarn build"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",
