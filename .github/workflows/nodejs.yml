@@ -5,22 +5,22 @@ name: Node.js CI
 
 on:
   push:
-    branches: [ master ]
+    branches: [master]
   pull_request:
-    branches: [ master ]
+    branches: [master]
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Use Node.js v12
-      uses: actions/setup-node@v1
-      with:
-        node-version: v12.x
-    - run: yarn
-    - run: yarn test
-      env:
-        CI: true
+      - uses: actions/checkout@v2
+      - name: Use Node.js v12
+        uses: actions/setup-node@v1
+        with:
+          node-version: v12.x
+      - run: yarn
+      - run: yarn build
+      - run: yarn test
+        env:
+          CI: true
