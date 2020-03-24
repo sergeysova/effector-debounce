@@ -211,3 +211,36 @@ describe('store', () => {
     expect(watcher).toBeCalledWith(2);
   });
 });
+
+test('debounce do not affect another instance', async () => {
+  const watcherFirst = jest.fn();
+  const triggerFirst = createEvent<number>();
+  const debouncedFirst = createDebounce(triggerFirst, 20);
+  debouncedFirst.watch(watcherFirst);
+
+  const watcherSecond = jest.fn();
+  const triggerSecond = createEvent<string>();
+  const debouncedSecond = createDebounce(triggerSecond, 60);
+  debouncedSecond.watch(watcherSecond);
+
+  triggerFirst(0);
+
+  expect(watcherFirst).not.toBeCalled();
+  await wait(20);
+
+  expect(watcherFirst).toBeCalledWith(0);
+  expect(watcherSecond).not.toBeCalled();
+
+  triggerSecond('foo');
+  triggerFirst(1);
+  await wait(20);
+  triggerFirst(2);
+  await wait(20);
+
+  expect(watcherFirst).toBeCalledWith(2);
+  expect(watcherSecond).not.toBeCalled();
+
+  await wait(20);
+
+  expect(watcherSecond).toBeCalledWith('foo');
+});
