@@ -37,14 +37,14 @@ const debounced = createDebounce(someHappened, DEBOUNCE_TIMEOUT_IN_MS);
 To test that original event is correctly debounced you can add watcher:
 
 ```ts
-someHappened.watch((payload) => {
+debounced.watch((payload) => {
   console.info('someHappened now', payload);
 });
 
-debounced(1);
-debounced(2);
-debounced(3);
-debounced(4);
+someHappened(1);
+someHappened(2);
+someHappened(3);
+someHappened(4);
 
 // someHappened now 4
 ```
